@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 5000;
 
 
 
+model文件夹：数据模型
+
+
+
 routes文件夹:保存各个方法对应的地址
 
 ```javascript
@@ -35,7 +39,7 @@ router
 module.exports = router;
 ```
 
-Controllers文件夹：定义各种方法
+Controllers文件夹：定义各种方法,控制model逻辑
 
 ```
 exports.getBootcamps = (req, res, next) => {
@@ -43,7 +47,7 @@ exports.getBootcamps = (req, res, next) => {
 };
 ```
 
-
+Util文件夹：工具，比如errorHandler
 
 
 
