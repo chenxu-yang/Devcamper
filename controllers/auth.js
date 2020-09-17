@@ -1,8 +1,9 @@
+const crypto = require('crypto');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const sendEmail = require('../utils/sendEmail');
 const User = require('../models/User');
-const crypto = require('crypto');
+
 // @desc      Register user
 // @route     POST /api/v1/auth/register
 // @access    Public
@@ -46,6 +47,21 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
 
   sendTokenResponse(user, 200, res);
+});
+
+// @desc      Log user out / clear cookie
+// @route     GET /api/v1/auth/logout
+// @access    Private
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.cookie('token', 'none', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
 });
 
 // @desc      Get current logged in user
@@ -109,7 +125,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
   // Get reset token
   const resetToken = user.getResetPasswordToken();
-  console.log(resetToken);
 
   await user.save({ validateBeforeSave: false });
 
@@ -172,7 +187,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
-//get token from model, create cookie and send response
+// Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   const token = user.getSignedJwtToken();

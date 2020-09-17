@@ -54,3 +54,7 @@ Util文件夹：工具，比如errorHandler
 json web token:for user authentication 
 
 and  sending JWT in a Cookie
+
+
+
+sanitize data to prevent NoSQL injection.
